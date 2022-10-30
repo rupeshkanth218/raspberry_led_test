@@ -1,10 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from .models import LED_STATUS
 
 def home(request):
-    return render(request,"index.html")
+    obj=LED_STATUS.objects.get(pk=1)
+    data={"text":obj.status}
+    return render(request,"index.html",data)
 
 def on(request):
-    return render(request,"on.html")
+    obj=LED_STATUS.objects.get(pk=1)
+    obj.status="ON"
+    obj.save()
+    
+    return redirect("home")
 
 def off(request):
-    return render(request, "index.html")
+    obj=LED_STATUS.objects.get(pk=1)
+    obj.status="OFF"
+    obj.save()
+    
+    return redirect("home")
